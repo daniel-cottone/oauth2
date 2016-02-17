@@ -3,7 +3,6 @@ package com.brahalla.oauthprovider.configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -30,7 +29,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
   public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
     auth
       .userDetailsService(this.userDetailsService)
-        .passwordEncoder(passwordEncoder());
+      .passwordEncoder(passwordEncoder());
   }
 
   @Override
@@ -42,7 +41,10 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
       .authorizeRequests()
         .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
         .antMatchers("/oauth/token_key").permitAll()
-        .anyRequest().fullyAuthenticated();
+        .anyRequest().fullyAuthenticated()
+        .and()
+      .httpBasic();
+
   }
 
 }

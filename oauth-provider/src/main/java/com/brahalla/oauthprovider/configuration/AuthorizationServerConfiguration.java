@@ -1,10 +1,7 @@
 package com.brahalla.oauthprovider.configuration;
 
-import javax.sql.DataSource;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -48,12 +45,7 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
   @Override
   public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
     clients
-      .inMemory()
-      //.jdbc(dataSource())
-        .withClient("acme")
-        .secret("acmesecret")
-        .authorizedGrantTypes("authorization_code", "implicit", "refresh_token", "password")
-        .scopes("openid");
+      .withClientDetails(this.clientDetailsService);
   }
 
   @Override
@@ -75,15 +67,5 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
     defaultTokenServices.setAccessTokenValiditySeconds(this.tokenExpiration);
     return defaultTokenServices;
   }
-
-  /*@Bean
-  public DataSource dataSource() {
-    return DataSourceBuilder.create()
-      .driverClassName("org.h2.Driver")
-      .url("jdbc:h2:~/test")
-      .username("sa")
-      .password("")
-      .build();
-  }*/
 
 }
