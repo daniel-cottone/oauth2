@@ -8,13 +8,14 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
-@Order(1)
+@EnableWebSecurity
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
   @Autowired
@@ -25,14 +26,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     return new BCryptPasswordEncoder();
   }
 
-  @Bean
-  @Override
-  public AuthenticationManager authenticationManagerBean() throws Exception {
-    return super.authenticationManagerBean();
-  }
-
-  @Override
-  public void configure(AuthenticationManagerBuilder auth) throws Exception {
+  @Autowired
+  public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
     auth
       .userDetailsService(this.userDetailsService)
         .passwordEncoder(passwordEncoder());
@@ -46,7 +41,6 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         .disable()
       .authorizeRequests()
         .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-        .antMatchers("/oauth/authorize").fullyAuthenticated()
         .antMatchers("/oauth/token_key").permitAll()
         .anyRequest().fullyAuthenticated();
   }
