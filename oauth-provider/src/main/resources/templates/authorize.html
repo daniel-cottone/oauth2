@@ -1,0 +1,27 @@
+<html>
+	<head>
+	</head>
+	<body>
+		<div class="container">
+			<h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
+			<p>
+				Do you authorize <span th:text="${session.authorizationRequest.clientId}">clientId</span> at
+				<span th:text="${session.authorizationRequest.redirectUri}">example.com</span> to access your protected resources
+				with scope <span th:text="${#strings.listJoin(session.authorizationRequest.scope, ', ')}">scope</span>?
+			</p>
+			<form id="confirmationForm" name="confirmationForm" action="../oauth/authorize" method="post">
+				<input name="user_oauth_approval" value="true" type="hidden" />
+				<ul th:each="scope : ${session.authorizationRequest.scope}">
+					<li>
+						<div>
+							<span th:text="${scope}">scope</span>
+							<input type="radio" th:attr="name='scope.' + ${scope}" value="true">Approve</input>
+							<input type="radio" th:attr="name='scope.' + ${scope}" value="false">Deny</input>
+						</div>
+					</li>
+				</ul>
+				<button class="btn btn-primary" type="submit">Approve</button>
+			</form>
+		</div>
+	</body>
+</html>

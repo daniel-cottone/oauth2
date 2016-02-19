@@ -3,12 +3,12 @@
   <modelVersion>4.0.0</modelVersion>
 
   <!-- Application information -->
-  <groupId>com.brahalla.oauthprovider</groupId>
-  <artifactId>oauthprovider</artifactId>
+  <groupId>com.brahalla.oauthclient</groupId>
+  <artifactId>oauthclient</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>war</packaging>
-  <name>oauthprovider</name>
-  <description>Example OAuth2 authorization server</description>
+  <name>oauthclient</name>
+  <description>Example OAuth2 client server</description>
   <url></url>
   <inceptionYear>2016</inceptionYear>
 
@@ -54,10 +54,6 @@
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-web</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-thymeleaf</artifactId>
     </dependency>
     <dependency>
       <groupId>org.springframework.security</groupId>

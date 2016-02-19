@@ -29,7 +29,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
   public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
     auth
       .userDetailsService(this.userDetailsService)
-      .passwordEncoder(passwordEncoder());
+        .passwordEncoder(passwordEncoder());
   }
 
   @Override
@@ -37,12 +37,18 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     http
       .csrf()
         .disable()
+      .formLogin()
+        .loginPage("/login")
+        .permitAll()
+        .and()
+      .requestMatchers()
+        .antMatchers("/login", "/oauth/authorize", "/oauth/check_token", "/oauth/token", "/oauth/token_key")
+        .and()
       .authorizeRequests()
         .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
         .antMatchers("/oauth/token_key").permitAll()
-        .anyRequest().fullyAuthenticated()
-        .and()
-      .httpBasic();
+        .anyRequest().fullyAuthenticated();
+      //.httpBasic();
 
   }
 
