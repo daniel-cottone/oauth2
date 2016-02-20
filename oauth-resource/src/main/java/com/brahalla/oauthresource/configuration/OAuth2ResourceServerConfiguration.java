@@ -11,6 +11,9 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.R
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.RemoteTokenServices;
 import org.springframework.security.oauth2.provider.token.ResourceServerTokenServices;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 @Configuration
 @EnableResourceServer
@@ -42,6 +45,18 @@ public class OAuth2ResourceServerConfiguration extends ResourceServerConfigurerA
         .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
         .antMatchers("/user").access("#oauth2.hasScope('openid')")
         .anyRequest().authenticated();
+  }
+
+  @Bean
+  public CorsFilter corsFilter() {
+    final UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource = new UrlBasedCorsConfigurationSource();
+    final CorsConfiguration corsConfiguration = new CorsConfiguration();
+    corsConfiguration.setAllowCredentials(true);
+    corsConfiguration.addAllowedOrigin("*");
+    corsConfiguration.addAllowedHeader("*");
+    corsConfiguration.addAllowedMethod("*");
+    urlBasedCorsConfigurationSource.registerCorsConfiguration("/**", corsConfiguration);
+    return new CorsFilter(urlBasedCorsConfigurationSource);
   }
 
   @Bean
