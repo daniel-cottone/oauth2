@@ -35,8 +35,6 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
   @Override
   protected void configure(HttpSecurity http) throws Exception {
     http
-      .csrf()
-        .disable()
       .formLogin()
         .loginPage("/login")
         .permitAll()
@@ -48,7 +46,6 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
         .antMatchers("/oauth/token_key").permitAll()
         .anyRequest().fullyAuthenticated();
-      //.httpBasic();
 
   }
 
