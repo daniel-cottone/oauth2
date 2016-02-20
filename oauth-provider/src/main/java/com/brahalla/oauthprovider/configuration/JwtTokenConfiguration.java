@@ -1,5 +1,7 @@
 package com.brahalla.oauthprovider.configuration;
 
+import java.security.KeyPair;
+import java.security.Principal;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -8,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
@@ -16,15 +19,19 @@ import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
+import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
 
 @Configuration
 public class JwtTokenConfiguration {
 
-  @Value("${oauthprovider.token.key.private}")
-  private String privateKey;
+  @Value("${oauthprovider.token.keystore.path}")
+  private String keystorePath;
 
-  @Value("${oauthprovider.token.key.public}")
-  private String publicKey;
+  @Value("${oauthprovider.token.keystore.password}")
+  private String keystorePassword;
+
+  @Value("${oauthprovider.token.keystore.alias}")
+  private String keystoreAlias;
 
   @Bean
   public JwtTokenStore tokenStore() {
@@ -34,8 +41,9 @@ public class JwtTokenConfiguration {
   @Bean
   public JwtAccessTokenConverter tokenEnhancer() {
     final JwtAccessTokenConverter jwtAccessTokenConverter = new JwtAccessTokenConverter();
-    jwtAccessTokenConverter.setSigningKey(this.privateKey);
-    jwtAccessTokenConverter.setVerifierKey(this.publicKey);
+    final ClassPathResource keystore = new ClassPathResource(this.keystorePath);
+    final KeyPair keyPair = new KeyStoreKeyFactory(keystore, this.keystorePassword.toCharArray()).getKeyPair(this.keystoreAlias);
+    jwtAccessTokenConverter.setKeyPair(keyPair);
     return jwtAccessTokenConverter;
   }
 
