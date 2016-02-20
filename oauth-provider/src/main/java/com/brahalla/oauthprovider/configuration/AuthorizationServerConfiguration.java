@@ -16,6 +16,13 @@ import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
+import org.springframework.security.oauth2.provider.approval.ApprovalStore;
+import org.springframework.security.oauth2.provider.approval.TokenApprovalStore;
+import org.springframework.security.oauth2.provider.approval.TokenStoreUserApprovalHandler;
+import org.springframework.security.oauth2.provider.approval.UserApprovalHandler;
+import org.springframework.security.oauth2.provider.request.DefaultOAuth2RequestFactory;
+
+
 @Configuration
 @EnableAuthorizationServer
 public class AuthorizationServerConfiguration extends AuthorizationServerConfigurerAdapter {
@@ -39,6 +46,7 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
   public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
     endpoints
       .tokenServices(defaultTokenServices())
+      //.userApprovalHandler(userApprovalHandler())
       .authenticationManager(this.authenticationManager);
   }
 
@@ -56,6 +64,23 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
 
     oauthServer.allowFormAuthenticationForClients();
   }
+
+  /*@Bean
+  public ApprovalStore approvalStore() {
+    final TokenApprovalStore tokenApprovalStore = new TokenApprovalStore();
+    tokenApprovalStore.setTokenStore(this.jwtTokenStore);
+    return tokenApprovalStore;
+  }
+
+  @Bean
+  public UserApprovalHandler userApprovalHandler() {
+    final TokenStoreUserApprovalHandler tokenStoreUserApprovalHandler = new TokenStoreUserApprovalHandler();
+    final DefaultOAuth2RequestFactory defaultOAuth2RequestFactory = new DefaultOAuth2RequestFactory(this.clientDetailsService);
+    tokenStoreUserApprovalHandler.setApprovalStore(approvalStore());
+    tokenStoreUserApprovalHandler.setRequestFactory(defaultOAuth2RequestFactory);
+    tokenStoreUserApprovalHandler.setClientDetailsService(this.clientDetailsService);
+    tokenStoreUserApprovalHandler.setUseApprovalStore(true);
+  }*/
 
   @Bean
   public AuthorizationServerTokenServices defaultTokenServices() {

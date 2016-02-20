@@ -18,6 +18,7 @@
     <java.version>1.8</java.version>
     <spring-security-jwt.version>1.0.3.RELEASE</spring-security-jwt.version>
     <spring-security-oauth2.version>2.0.8.RELEASE</spring-security-oauth2.version>
+    <thymeleaf-extras-springsecurity4.version>2.1.2.RELEASE</thymeleaf-extras-springsecurity4.version>
     <h2.version>1.4.188</h2.version>
     <apache-commons.version>3.0</apache-commons.version>
     <junit.version>4.12</junit.version>
@@ -62,7 +63,7 @@
     <dependency>
       <groupId>org.thymeleaf.extras</groupId>
       <artifactId>thymeleaf-extras-springsecurity4</artifactId>
-      <version>2.1.2.RELEASE</version>
+      <version>${thymeleaf-extras-springsecurity4.version}</version>
     </dependency>
     <dependency>
       <groupId>org.springframework.security</groupId>

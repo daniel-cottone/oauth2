@@ -12,6 +12,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.RememberMeServices;
+import org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
@@ -39,17 +41,32 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
   protected void configure(HttpSecurity http) throws Exception {
     http
       .formLogin()
-        .loginPage("/login")
-        .permitAll()
+        .loginPage("/login").permitAll()
+        .defaultSuccessUrl("/home").permitAll()
+        .and()
+      .logout()
+        .logoutSuccessUrl("/login").permitAll()
         .and()
       .requestMatchers()
-        .antMatchers("/login", "/oauth/authorize", "/oauth/check_token", "/oauth/token", "/oauth/token_key")
+        .antMatchers("/login", "/logout", "/home", "/oauth/authorize", "/oauth/check_token", "/oauth/token", "/oauth/token_key")
         .and()
       .authorizeRequests()
         .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
         .antMatchers("/oauth/token_key").permitAll()
-        .anyRequest().authenticated();
+        .anyRequest().authenticated()
+        .and()
+      .rememberMe()
+        .rememberMeServices(rememberMeServices())
+        .tokenValiditySeconds(31536000)
+        .useSecureCookie(false); // true for https
 
+  }
+
+  @Bean
+  public RememberMeServices rememberMeServices() {
+    final TokenBasedRememberMeServices rememberMeServices = new TokenBasedRememberMeServices("remember_me", this.userDetailsService);
+    rememberMeServices.setAlwaysRemember(true);
+    return rememberMeServices;
   }
 
   @Bean
