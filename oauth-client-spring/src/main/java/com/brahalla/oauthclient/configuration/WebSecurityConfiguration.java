@@ -14,10 +14,14 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
   @Override
   protected void configure(HttpSecurity http) throws Exception {
     http
+      .logout()
+        .logoutSuccessUrl("/").permitAll()
+        .and()
       .authorizeRequests()
         .antMatchers("/css/**").permitAll()
         .antMatchers("/js/**").permitAll()
         .anyRequest().fullyAuthenticated();
+
   }
 
 }

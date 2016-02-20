@@ -4,11 +4,10 @@
   </head>
 
   <body>
-    <h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
+    <h1 th:inline="text">Hello!</h1>
     <br />
     <p>
-      Logged in as: <span sec:authentication="name">Bob</span><br />
-      Roles: <span sec:authentication="authorities">[ROLE_USER, ROLE_ADMIN]</span>
+      <a href="home">Home</a>
     </p>
   </body>
 </html>
