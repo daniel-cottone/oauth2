@@ -22,12 +22,13 @@ public class Client {
   private String grantTypes;
   private String authorities;
   private String redirectUris;
+  private String autoApproveScopes;
 
   public Client() {
     super();
   }
 
-  public Client(String clientId, String clientSecret, String resourceIds, String scopes, String grantTypes, String authorities, String redirectUris) {
+  public Client(String clientId, String clientSecret, String resourceIds, String scopes, String grantTypes, String authorities, String redirectUris, String autoApproveScopes) {
     this.setClientId(clientId);
     this.setClientSecret(clientSecret);
     this.setResourceIds(resourceIds);
@@ -35,6 +36,7 @@ public class Client {
     this.setGrantTypes(grantTypes);
     this.setAuthorities(authorities);
     this.setRedirectUris(redirectUris);
+    this.setAutoApproveScopes(autoApproveScopes);
   }
 
   @Id
@@ -110,6 +112,15 @@ public class Client {
 
   public void setRedirectUris(String redirectUris) {
     this.redirectUris = redirectUris;
+  }
+
+  @Column(name = "auto_approve_scopes")
+  public String getAutoApproveScopes() {
+    return this.autoApproveScopes;
+  }
+
+  public void setAutoApproveScopes(String autoApproveScopes) {
+    this.autoApproveScopes = autoApproveScopes;
   }
 
 }

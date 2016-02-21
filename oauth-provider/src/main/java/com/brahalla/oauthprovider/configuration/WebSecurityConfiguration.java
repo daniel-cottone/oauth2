@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.RememberMeAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -13,7 +14,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.RememberMeServices;
-import org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
@@ -25,6 +25,12 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
   @Autowired
   private UserDetailsService userDetailsService;
 
+  @Autowired
+  private RememberMeAuthenticationProvider rememberMeAuthenticationProvider;
+
+  @Autowired
+  private RememberMeServices rememberMeServices;
+
   @Bean
   public PasswordEncoder passwordEncoder() {
     return new BCryptPasswordEncoder();
@@ -33,6 +39,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
   @Autowired
   public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
     auth
+      .authenticationProvider(this.rememberMeAuthenticationProvider)
       .userDetailsService(this.userDetailsService)
         .passwordEncoder(passwordEncoder());
   }
@@ -56,17 +63,10 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         .anyRequest().authenticated()
         .and()
       .rememberMe()
-        .rememberMeServices(rememberMeServices())
+        .rememberMeServices(this.rememberMeServices)
         .tokenValiditySeconds(31536000)
         .useSecureCookie(false); // true for https
 
-  }
-
-  @Bean
-  public RememberMeServices rememberMeServices() {
-    final TokenBasedRememberMeServices rememberMeServices = new TokenBasedRememberMeServices("remember_me", this.userDetailsService);
-    rememberMeServices.setAlwaysRemember(true);
-    return rememberMeServices;
   }
 
   @Bean

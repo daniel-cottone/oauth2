@@ -17,6 +17,7 @@ import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
+import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
@@ -34,7 +35,7 @@ public class JwtTokenConfiguration {
   private String keystoreAlias;
 
   @Bean
-  public JwtTokenStore tokenStore() {
+  public TokenStore tokenStore() {
     return new JwtTokenStore(tokenEnhancer());
   }
 

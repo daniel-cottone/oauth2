@@ -40,6 +40,7 @@ public class ClientDetailsServiceImpl implements ClientDetailsService {
     baseClientDetails.setScope(StringUtils.commaDelimitedListToSet(client.getScopes()));
     baseClientDetails.setAuthorizedGrantTypes(StringUtils.commaDelimitedListToSet(client.getGrantTypes()));
     baseClientDetails.setRegisteredRedirectUri(StringUtils.commaDelimitedListToSet(client.getRedirectUris()));
+    baseClientDetails.setAutoApproveScopes(StringUtils.commaDelimitedListToSet(client.getAutoApproveScopes()));
     return baseClientDetails;
   }
 

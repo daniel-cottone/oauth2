@@ -14,11 +14,11 @@ import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
-import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
+import org.springframework.security.oauth2.provider.token.TokenStore;
 
+import com.brahalla.oauthprovider.security.OAuthProviderUserApprovalHandler;
 import org.springframework.security.oauth2.provider.approval.ApprovalStore;
 import org.springframework.security.oauth2.provider.approval.TokenApprovalStore;
-import org.springframework.security.oauth2.provider.approval.TokenStoreUserApprovalHandler;
 import org.springframework.security.oauth2.provider.approval.UserApprovalHandler;
 import org.springframework.security.oauth2.provider.request.DefaultOAuth2RequestFactory;
 
@@ -37,7 +37,7 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
   private ClientDetailsService clientDetailsService;
 
   @Autowired
-  private JwtTokenStore jwtTokenStore;
+  private TokenStore tokenStore;
 
   @Autowired
   private TokenEnhancer tokenEnhancer;
@@ -66,26 +66,28 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
   }
 
   /*@Bean
-  public ApprovalStore approvalStore() {
+  public ApprovalStore approvalStore() throws Exception {
     final TokenApprovalStore tokenApprovalStore = new TokenApprovalStore();
-    tokenApprovalStore.setTokenStore(this.jwtTokenStore);
+    tokenApprovalStore.setTokenStore(this.tokenStore);
     return tokenApprovalStore;
   }
 
   @Bean
-  public UserApprovalHandler userApprovalHandler() {
-    final TokenStoreUserApprovalHandler tokenStoreUserApprovalHandler = new TokenStoreUserApprovalHandler();
+  public UserApprovalHandler userApprovalHandler() throws Exception {
+    final OAuthProviderUserApprovalHandler approvalStoreUserApprovalHandler = new OAuthProviderUserApprovalHandler();
     final DefaultOAuth2RequestFactory defaultOAuth2RequestFactory = new DefaultOAuth2RequestFactory(this.clientDetailsService);
-    tokenStoreUserApprovalHandler.setApprovalStore(approvalStore());
-    tokenStoreUserApprovalHandler.setRequestFactory(defaultOAuth2RequestFactory);
-    tokenStoreUserApprovalHandler.setClientDetailsService(this.clientDetailsService);
-    tokenStoreUserApprovalHandler.setUseApprovalStore(true);
+    approvalStoreUserApprovalHandler.setApprovalStore(approvalStore());
+    approvalStoreUserApprovalHandler.setRequestFactory(defaultOAuth2RequestFactory);
+    approvalStoreUserApprovalHandler.setClientDetailsService(this.clientDetailsService);
+    approvalStoreUserApprovalHandler.setApprovalExpiryInSeconds(31536000);
+    approvalStoreUserApprovalHandler.setUseApprovalStore(true);
+    return approvalStoreUserApprovalHandler;
   }*/
 
   @Bean
   public AuthorizationServerTokenServices defaultTokenServices() {
     final DefaultTokenServices defaultTokenServices = new DefaultTokenServices();
-    defaultTokenServices.setTokenStore(this.jwtTokenStore);
+    defaultTokenServices.setTokenStore(this.tokenStore);
     defaultTokenServices.setClientDetailsService(this.clientDetailsService);
     defaultTokenServices.setTokenEnhancer(this.tokenEnhancer);
     defaultTokenServices.setSupportRefreshToken(true);
