@@ -16,7 +16,7 @@
 					<li>
 						<div>
 							<span th:text="${scope}">scope</span>
-							<input type="radio" th:attr="name='scope.' + ${scope}" value="true">Approve</input>
+							<input type="radio" th:attr="name='scope.' + ${scope}" value="true" checked="checked">Approve</input>
 							<input type="radio" th:attr="name='scope.' + ${scope}" value="false">Deny</input>
 						</div>
 					</li>
