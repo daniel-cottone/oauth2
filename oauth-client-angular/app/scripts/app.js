@@ -13,7 +13,8 @@ angular
     'ngAnimate',
     'ngResource',
     'ngStorage',
-    'ui.router'
+    'ui.router',
+    'oauth'
   ])
   .config(function ($urlRouterProvider, $stateProvider) {
 
@@ -25,7 +26,7 @@ angular
 
     // Application root
     .state('app', {
-      url: '/:access_token',
+      url: '/',
       views: {
         'header': {
           templateUrl: 'views/header.html',
@@ -49,6 +50,17 @@ angular
         'content@': {
           templateUrl: 'views/about.html',
           controller: 'AboutCtrl'
+        }
+      }
+    })
+
+    // OAuth access token handler
+    .state('app.accessToken', {
+      url: 'access_token=:accessToken',
+      views: {
+        'content@': {
+          templateUrl: 'views/login.html',
+          controller: 'LoginCtrl'
         }
       }
     });

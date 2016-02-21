@@ -16,8 +16,23 @@
 
       <ul class="nav navbar-nav">
         <li><a ui-sref="app">Home</a></li>
-        <li><a ui-sref="app.about" ui-sref-active="active">About</a></li>
+        <li><a ui-sref="app.about" ui-sref-active="active" ng-show="logged">About</a></li>
       </ul>
+
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+          <oauth
+            template="views/oauth.html"
+            site="http://localhost:9999"
+            client-id="acme"
+            redirect-uri="http://localhost:9000/"
+            scope="openid"
+            authorize-path="/uaa/oauth/authorize"
+            storage="localStorage">
+          </oauth>
+        </li>
+      </ul>
+
     </div>
   </div>
 </div>

@@ -8,10 +8,10 @@
  * Controller of the oauthClientAngularApp
  */
 angular.module('oauthClientAngularApp')
-  .controller('HeaderCtrl', function () {
-    this.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
+  .controller('HeaderCtrl', function ($timeout, $scope, AccessToken) {
+
+    $timeout(function() {
+      $scope.logged = !!AccessToken.get();
+    }, 0);
+
   });

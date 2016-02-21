@@ -1,6 +1,7 @@
 <!doctype html>
 <html ng-app="oauthClientAngularApp">
   <head>
+    <base href="/">
     <meta charset="utf-8">
     <title></title>
     <meta name="description" content="">
@@ -50,14 +51,10 @@
     <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
     <script src="bower_components/angular-animate/angular-animate.js"></script>
     <script src="bower_components/angular-resource/angular-resource.js"></script>
-    <script src="bower_components/angular-route/angular-route.js"></script>
     <script src="bower_components/ngstorage/ngStorage.js"></script>
-    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
-    <script src="bower_components/query-string/query-string.js"></script>
-    <script src="bower_components/angular-oauth2/dist/angular-oauth2.js"></script>
-    <script src="bower_components/angular-md5/angular-md5.js"></script>
-    <script src="bower_components/AngularJS-OAuth2/dist/angularJsOAuth2.js"></script>
     <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+    <script src="bower_components/jsrsasign/jsrsasign-latest-all-min.js"></script>
+    <script src="bower_components/oauth-ng/dist/oauth-ng.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -67,6 +64,7 @@
         <script src="scripts/controllers/about.js"></script>
         <script src="scripts/controllers/header.js"></script>
         <script src="scripts/controllers/footer.js"></script>
+        <script src="scripts/controllers/login.js"></script>
         <!-- endbuild -->
 </body>
 </html>

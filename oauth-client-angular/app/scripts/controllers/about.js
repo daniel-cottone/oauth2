@@ -8,22 +8,16 @@
  * Controller of the oauthClientAngularApp
  */
 angular.module('oauthClientAngularApp')
-  .controller('AboutCtrl', function ($scope, $rootScope, $http) {
-    this.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
+  .controller('AboutCtrl', function ($scope, $http, $sessionStorage) {
 
     $http({
       method: 'GET',
       url: 'http://localhost:8080/api/user',
       headers: {
-        'Authorization': 'Bearer ' + $rootScope.accessToken
+        'Authorization': 'Bearer ' + $sessionStorage.token.access_token
       }
     }).then(
       function (response) {
-        console.log(response);
         $scope.userDetails = response.data;
       }
     );
