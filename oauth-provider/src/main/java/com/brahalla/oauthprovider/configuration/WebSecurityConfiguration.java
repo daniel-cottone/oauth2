@@ -64,9 +64,12 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         .and()
       .rememberMe()
         .rememberMeServices(this.rememberMeServices)
-        .tokenValiditySeconds(31536000)
         .useSecureCookie(false); // true for https
 
+      // Enable for h2 console
+      /*http.csrf().disable();
+      http.headers().frameOptions().disable();
+      http.authorizeRequests().antMatchers("/console/**").permitAll();*/
   }
 
   @Bean
