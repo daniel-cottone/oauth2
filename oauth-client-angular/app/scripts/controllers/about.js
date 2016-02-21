@@ -8,7 +8,9 @@
  * Controller of the oauthClientAngularApp
  */
 angular.module('oauthClientAngularApp')
-  .controller('AboutCtrl', function ($scope, $http, $sessionStorage) {
+  .controller('AboutCtrl', function ($scope, $http, $sessionStorage, Profile) {
+
+    $scope.profile = Profile.get();
 
     $http({
       method: 'GET',

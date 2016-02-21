@@ -1,14 +1,16 @@
 <p>
   <label>Username: </label>
-  {{ userDetails.principal }}
+  {{ profile.principal }}
 </p>
 
 <p>
   <label>Name: </label>
-  {{ userDetails.name }}
+  {{ profile.name }}
 </p>
 
 <p>
   <label>Authorities: </label>
-  {{ userDetails.authorities }}
+  <span ng-repeat="authority in profile.authorities">
+    {{ authority.authority }} 
+  </span>
 </p>
