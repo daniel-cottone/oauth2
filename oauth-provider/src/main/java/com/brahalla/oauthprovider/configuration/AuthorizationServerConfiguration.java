@@ -16,12 +16,6 @@ import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 
-import com.brahalla.oauthprovider.security.OAuthProviderUserApprovalHandler;
-import org.springframework.security.oauth2.provider.approval.ApprovalStore;
-import org.springframework.security.oauth2.provider.approval.TokenApprovalStore;
-import org.springframework.security.oauth2.provider.approval.UserApprovalHandler;
-import org.springframework.security.oauth2.provider.request.DefaultOAuth2RequestFactory;
-
 
 @Configuration
 @EnableAuthorizationServer
@@ -46,7 +40,6 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
   public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
     endpoints
       .tokenServices(defaultTokenServices())
-      //.userApprovalHandler(userApprovalHandler())
       .authenticationManager(this.authenticationManager);
   }
 
@@ -64,25 +57,6 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
 
     oauthServer.allowFormAuthenticationForClients();
   }
-
-  /*@Bean
-  public ApprovalStore approvalStore() throws Exception {
-    final TokenApprovalStore tokenApprovalStore = new TokenApprovalStore();
-    tokenApprovalStore.setTokenStore(this.tokenStore);
-    return tokenApprovalStore;
-  }
-
-  @Bean
-  public UserApprovalHandler userApprovalHandler() throws Exception {
-    final OAuthProviderUserApprovalHandler approvalStoreUserApprovalHandler = new OAuthProviderUserApprovalHandler();
-    final DefaultOAuth2RequestFactory defaultOAuth2RequestFactory = new DefaultOAuth2RequestFactory(this.clientDetailsService);
-    approvalStoreUserApprovalHandler.setApprovalStore(approvalStore());
-    approvalStoreUserApprovalHandler.setRequestFactory(defaultOAuth2RequestFactory);
-    approvalStoreUserApprovalHandler.setClientDetailsService(this.clientDetailsService);
-    approvalStoreUserApprovalHandler.setApprovalExpiryInSeconds(31536000);
-    approvalStoreUserApprovalHandler.setUseApprovalStore(true);
-    return approvalStoreUserApprovalHandler;
-  }*/
 
   @Bean
   public AuthorizationServerTokenServices defaultTokenServices() {
